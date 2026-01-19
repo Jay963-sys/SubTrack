@@ -1,0 +1,23 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Subscription {
+  id           String   @id @default(uuid())
+  userId       String   
+  name         String
+  price        Float
+  category     String
+  billingCycle String
+  status       String   @default("ACTIVE")
+  startDate    DateTime
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("Subscription")
+}
