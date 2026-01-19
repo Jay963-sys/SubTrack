@@ -74,10 +74,6 @@ export default async function Home() {
           ))}
         </div>
       </main>
-
-      <footer className="py-8 text-center text-slate-400 text-sm">
-        &copy; 2026 SubTrack Inc. Built for Portfolios.
-      </footer>
     </div>
   );
 }

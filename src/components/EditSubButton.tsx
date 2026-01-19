@@ -25,7 +25,7 @@ export default function EditSubButton({ sub }: { sub: Subscription }) {
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+        className="p-2 text-slate-900 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
         title="Edit Subscription"
       >
         <Pencil className="w-4 h-4" />
@@ -34,7 +34,9 @@ export default function EditSubButton({ sub }: { sub: Subscription }) {
       {isOpen && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-xl shadow-xl w-full max-w-md p-6">
-            <h2 className="text-xl font-bold mb-4">Edit Subscription</h2>
+            <h2 className="text-xl font-bold mb-4 text-slate-900">
+              Edit Subscription
+            </h2>
 
             {/* 👇 SERVER ACTION DIRECTLY */}
             <form
@@ -50,7 +52,7 @@ export default function EditSubButton({ sub }: { sub: Subscription }) {
                   name="name"
                   defaultValue={sub.name}
                   required
-                  className="w-full px-3 py-2 border border-slate-300 rounded-lg"
+                  className="w-full px-3 py-2 bg-slate-50 text-slate-900 border border-slate-300 rounded-lg placeholder:text-slate-400"
                 />
               </div>
 
@@ -65,7 +67,7 @@ export default function EditSubButton({ sub }: { sub: Subscription }) {
                     step="0.01"
                     defaultValue={sub.price}
                     required
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg"
+                    className="w-full px-3 py-2 bg-slate-50 text-slate-900 border border-slate-300 rounded-lg placeholder:text-slate-400"
                   />
                 </div>
 
@@ -76,7 +78,7 @@ export default function EditSubButton({ sub }: { sub: Subscription }) {
                   <select
                     name="billingCycle"
                     defaultValue={sub.billingCycle}
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg"
+                    className="w-full px-3 py-2 bg-slate-50 text-slate-900 border border-slate-300 rounded-lg placeholder:text-slate-400"
                   >
                     {BILLING_CYCLES.map((c) => (
                       <option key={c.value} value={c.value}>
@@ -95,7 +97,7 @@ export default function EditSubButton({ sub }: { sub: Subscription }) {
                   <select
                     name="category"
                     defaultValue={sub.category}
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg"
+                    className="w-full px-3 py-2 bg-slate-50 text-slate-900 border border-slate-300 rounded-lg placeholder:text-slate-400"
                   >
                     {CATEGORIES.map((cat) => (
                       <option key={cat} value={cat}>
@@ -114,7 +116,7 @@ export default function EditSubButton({ sub }: { sub: Subscription }) {
                     type="date"
                     defaultValue={formatDateForInput(sub.startDate)}
                     required
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg"
+                    className="w-full px-3 py-2 bg-slate-50 text-slate-900 border border-slate-300 rounded-lg placeholder:text-slate-400"
                   />
                 </div>
               </div>

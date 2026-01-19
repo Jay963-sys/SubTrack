@@ -34,3 +34,67 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+```
+subtrack
+├─ eslint.config.mjs
+├─ next.config.ts
+├─ package-lock.json
+├─ package.json
+├─ postcss.config.mjs
+├─ prisma
+│  ├─ migrations
+│  │  ├─ 20260119104129_init
+│  │  │  └─ migration.sql
+│  │  └─ migration_lock.toml
+│  └─ schema.prisma
+├─ prisma.config.ts
+├─ public
+│  ├─ file.svg
+│  ├─ globe.svg
+│  ├─ next.svg
+│  ├─ vercel.svg
+│  └─ window.svg
+├─ README.md
+├─ src
+│  ├─ app
+│  │  ├─ (auth)
+│  │  ├─ (dashboard)
+│  │  │  ├─ dashboard
+│  │  │  │  ├─ page.tsx
+│  │  │  │  ├─ settings
+│  │  │  │  │  └─ [[...rest]]
+│  │  │  │  │     └─ page.tsx
+│  │  │  │  └─ subscriptions
+│  │  │  │     └─ page.tsx
+│  │  │  └─ layout.tsx
+│  │  ├─ actions
+│  │  │  ├─ createSubscription.ts
+│  │  │  ├─ deleteSubscription.ts
+│  │  │  └─ updateSubscription.ts
+│  │  ├─ favicon.ico
+│  │  ├─ globals.css
+│  │  ├─ layout.tsx
+│  │  └─ page.tsx
+│  ├─ components
+│  │  ├─ AddSubForm.tsx
+│  │  ├─ charts
+│  │  │  └─ CategoryPieChart.tsx
+│  │  ├─ DeleteSubButton.tsx
+│  │  ├─ EditSubButton.tsx
+│  │  ├─ Footer.tsx
+│  │  ├─ forms
+│  │  ├─ MobileNav.tsx
+│  │  ├─ Sidebar.tsx
+│  │  ├─ SubscriptionCard.tsx
+│  │  └─ ui
+│  ├─ generated
+│  ├─ lib
+│  │  ├─ constants.ts
+│  │  ├─ db.ts
+│  │  ├─ prisma.ts
+│  │  └─ utils.ts
+│  └─ proxy.ts
+└─ tsconfig.json
+
+```

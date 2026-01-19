@@ -2,11 +2,16 @@ import { prisma } from "@/lib/db";
 import SubscriptionCard from "@/components/SubscriptionCard";
 import AddSubForm from "@/components/AddSubForm";
 import CategoryPieChart from "@/components/charts/CategoryPieChart";
-import { format } from "date-fns";
-import { CreditCard, Activity, TrendingUp, DollarSign } from "lucide-react";
-
+import {
+  CreditCard,
+  Activity,
+  TrendingUp,
+  TrendingDown,
+  DollarSign,
+} from "lucide-react"; // Added TrendingDown
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
+import { startOfMonth } from "date-fns";
 
 export default async function DashboardPage() {
   const { userId } = await auth();
@@ -22,16 +27,40 @@ export default async function DashboardPage() {
     orderBy: { price: "desc" },
   });
 
-  const totalSpend = subscriptions.reduce((acc, sub) => acc + sub.price, 0);
-  const mostExpensive = subscriptions[0];
+  const totalSpend = subscriptions.reduce((acc, sub) => {
+    const monthlyPrice =
+      sub.billingCycle === "YEARLY" ? sub.price / 12 : sub.price;
+    return acc + monthlyPrice;
+  }, 0);
+
+  const currentMonthStart = startOfMonth(new Date());
+
+  const lastMonthSpend = subscriptions
+    .filter((sub) => sub.startDate < currentMonthStart)
+    .reduce((acc, sub) => {
+      const monthlyPrice =
+        sub.billingCycle === "YEARLY" ? sub.price / 12 : sub.price;
+      return acc + monthlyPrice;
+    }, 0);
+
+  let percentChange = 0;
+  if (lastMonthSpend > 0) {
+    percentChange = ((totalSpend - lastMonthSpend) / lastMonthSpend) * 100;
+  } else if (totalSpend > 0) {
+    percentChange = 100;
+  }
+
+  const isSpendingUp = percentChange > 0;
   const activeSubs = subscriptions.length;
+  const mostExpensive = subscriptions[0];
 
   const categoryMap = subscriptions.reduce(
     (acc, sub) => {
+      const price = sub.billingCycle === "YEARLY" ? sub.price / 12 : sub.price;
       if (acc[sub.category]) {
-        acc[sub.category] += sub.price;
+        acc[sub.category] += price;
       } else {
-        acc[sub.category] = sub.price;
+        acc[sub.category] = price;
       }
       return acc;
     },
@@ -45,7 +74,6 @@ export default async function DashboardPage() {
 
   return (
     <div className="space-y-8 max-w-6xl mx-auto py-4">
-      {/* --- Section 1: Header --- */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-6">
         <div>
           <h1 className="text-3xl font-extrabold tracking-tight text-slate-900">
@@ -58,11 +86,10 @@ export default async function DashboardPage() {
         <AddSubForm />
       </div>
 
-      {/* --- Section 2: Key Metrics (Bento Grid) --- */}
+      {/* --- Key Metrics --- */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {/* Card A: Main Hero (Total Spend) */}
+        {/* Card A: Total Monthly Spend (With Dynamic Stats) */}
         <div className="lg:col-span-2 bg-slate-900 text-white p-6 rounded-2xl shadow-lg flex flex-col justify-between relative overflow-hidden group">
-          {/* Background Decorator */}
           <div className="absolute -right-6 -top-6 opacity-10 group-hover:opacity-20 transition-opacity">
             <DollarSign className="w-40 h-40" />
           </div>
@@ -76,10 +103,22 @@ export default async function DashboardPage() {
             </h2>
           </div>
 
-          <div className="mt-4 flex items-center gap-2 text-slate-400 text-sm">
-            <TrendingUp className="w-4 h-4 text-emerald-400" />
-            <span className="text-emerald-400 font-medium">+2.5%</span> from
-            last month
+          {/* Dynamic Percentage Badge */}
+          <div className="mt-4 flex items-center gap-2 text-sm font-medium">
+            {isSpendingUp ? (
+              // Spending UP = BAD (Red)
+              <div className="flex items-center gap-1 text-rose-400 bg-rose-400/10 px-2 py-1 rounded-full">
+                <TrendingUp className="w-4 h-4" />
+                <span>+{Math.abs(percentChange).toFixed(1)}%</span>
+              </div>
+            ) : (
+              // Spending DOWN or FLAT = GOOD (Emerald)
+              <div className="flex items-center gap-1 text-emerald-400 bg-emerald-400/10 px-2 py-1 rounded-full">
+                <TrendingDown className="w-4 h-4" />
+                <span>{percentChange.toFixed(1)}%</span>
+              </div>
+            )}
+            <span className="text-slate-400">from last month</span>
           </div>
         </div>
 
@@ -110,27 +149,24 @@ export default async function DashboardPage() {
             {mostExpensive ? mostExpensive.name : "N/A"}
           </p>
           <p className="text-sm text-slate-500">
-            ${mostExpensive?.price.toFixed(2) || "0.00"}/mo
+            ${mostExpensive?.price.toFixed(2) || "0.00"}/
+            {mostExpensive?.billingCycle === "YEARLY" ? "yr" : "mo"}
           </p>
         </div>
       </div>
 
-      {/* --- Section 3: Content Split --- */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Left Col: Chart Widget */}
         <div className="lg:col-span-1">
           <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm sticky top-8">
             <h3 className="font-semibold text-slate-900 mb-6">
               Spend by Category
             </h3>
-            {/* We set a fixed height here to ensure the chart renders nicely */}
             <div className="h-64 w-full">
               <CategoryPieChart data={chartData} />
             </div>
           </div>
         </div>
 
-        {/* Right Col: Subscription Grid */}
         <div className="lg:col-span-2">
           <div className="flex items-center justify-between mb-6">
             <h3 className="font-semibold text-slate-900 text-lg">

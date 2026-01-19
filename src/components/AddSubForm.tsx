@@ -53,7 +53,7 @@ export default function AddSubForm() {
               name="name"
               required
               placeholder="e.g. Netflix"
-              className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 bg-slate-50 text-slate-900 border border-slate-300 rounded-lg placeholder:text-slate-400"
             />
           </div>
 
@@ -64,13 +64,14 @@ export default function AddSubForm() {
                 Monthly Cost
               </label>
               <div className="relative">
-                <span className="absolute left-3 top-2 text-slate-500">$</span>
+                <span className="absolute left-3 top-2 text-slate-500"></span>
                 <input
                   name="price"
                   type="number"
                   step="0.01"
                   required
-                  className="w-full pl-7 px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="$0.00"
+                  className="w-full px-3 py-2 bg-slate-50 text-slate-900 border border-slate-300 rounded-lg placeholder:text-slate-400"
                 />
               </div>
             </div>
@@ -81,7 +82,7 @@ export default function AddSubForm() {
               </label>
               <select
                 name="billingCycle"
-                className="w-full px-3 py-2 border border-slate-300 rounded-lg"
+                className="w-full px-3 py-2 bg-slate-50 text-slate-900 border border-slate-300 rounded-lg placeholder:text-slate-400"
               >
                 {BILLING_CYCLES.map((cycle) => (
                   <option key={cycle.value} value={cycle.value}>
@@ -100,7 +101,7 @@ export default function AddSubForm() {
               </label>
               <select
                 name="category"
-                className="w-full px-3 py-2 border border-slate-300 rounded-lg"
+                className="w-full px-3 py-2 bg-slate-50 text-slate-900 border border-slate-300 rounded-lg placeholder:text-slate-400"
               >
                 {CATEGORIES.map((cat) => (
                   <option key={cat} value={cat}>
@@ -118,7 +119,7 @@ export default function AddSubForm() {
                 name="startDate"
                 type="date"
                 required
-                className="w-full px-3 py-2 border border-slate-300 rounded-lg"
+                className="w-full px-3 py-2 bg-slate-50 text-slate-900 border border-slate-300 rounded-lg placeholder:text-slate-400"
               />
             </div>
           </div>
