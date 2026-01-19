@@ -53,10 +53,8 @@ export default function Sidebar() {
           <UserButton afterSignOutUrl="/" />
           <div className="flex flex-col">
             {!isLoaded ? (
-              // Skeleton Loader state
               <div className="h-4 w-24 bg-slate-800 rounded animate-pulse mb-1" />
             ) : (
-              // Actual Data
               <span className="text-sm font-medium text-white">
                 {user?.firstName || "User"}
               </span>
