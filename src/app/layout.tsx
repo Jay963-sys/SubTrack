@@ -9,6 +9,31 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "SubTrack",
   description: "Subscription Analytics Dashboard",
+  icons: {
+    icon: "/images/subtrack.png",
+    shortcut: "/images/subtrack.png",
+    apple: "/images/subtrack.png",
+  },
+  openGraph: {
+    title: "SubTrack",
+    description: "Subscription Analytics Dashboard",
+    siteName: "SubTrack",
+    images: [
+      {
+        url: "/images/subtrack.png",
+        width: 1200,
+        height: 630,
+        alt: "SubTrack Dashboard",
+      },
+    ],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "SubTrack",
+    description: "Subscription Analytics Dashboard",
+    images: ["/images/subtrack.png"],
+  },
 };
 
 export default function RootLayout({
